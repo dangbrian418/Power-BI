@@ -1,0 +1,8 @@
+(Start of Week Matrix) Running Inventory = 
+CALCULATE(
+    [Weekly Inventory],
+    FILTER(
+        ALL('Rolling Calendar'),
+        'Rolling Calendar'[Start of Week] <= MAX('Rolling Calendar'[Start of Week])
+        )
+    )
