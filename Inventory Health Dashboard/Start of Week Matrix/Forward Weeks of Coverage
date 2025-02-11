@@ -1,0 +1,32 @@
+(Start of Week Matrix) Forward Weeks of Coverage = 
+VAR CurrentRunningInventory = [(Start of Week Matrix) Running Inventory] -- Current week's running inventory
+VAR StartOfWeek = MAX('Rolling Calendar'[Start of Week]) -- Current Start of Week in context
+VAR FutureWeeks = 
+    FILTER(
+        ALL('Rolling Calendar'),
+        'Rolling Calendar'[Start of Week] > StartOfWeek -- Include the current(removed) week and future weeks
+    )
+VAR Result =
+    SUMX(
+        ADDCOLUMNS(
+            FutureWeeks,
+            "@RemainingInventory",
+            VAR CurrentWeekDemand = 
+                CALCULATE(
+                    SUM('Consolidated Demand Forecast'[Demand Quantity]),
+                    'Rolling Calendar'[Start of Week] = EARLIER('Rolling Calendar'[Start of Week])
+                )
+            VAR UpdatedInventory = CurrentRunningInventory - SUMX(
+                FILTER(
+                    FutureWeeks,
+                    'Rolling Calendar'[Start of Week] <= EARLIER('Rolling Calendar'[Start of Week])
+                ),
+                CALCULATE(SUM('Consolidated Demand Forecast'[Demand Quantity]))
+            )
+            RETURN
+                IF(UpdatedInventory > 0, 1, 0)
+        ),
+        [@RemainingInventory]
+    )
+RETURN
+    Result
