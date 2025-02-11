@@ -1,0 +1,16 @@
+(SKU-Level Matrix) Running Inventory = 
+CALCULATE(
+    [(Start of Week Matrix) Running Inventory],
+    FILTER(
+        ALL('Rolling Calendar'),
+        'Rolling Calendar'[Start of Week] =
+        CALCULATE(
+            MIN('Rolling Calendar'[Start of Week]),
+            FILTER(
+                ALL('Rolling Calendar'),
+                'Rolling Calendar'[Start of Week] <= 
+                (TODAY() - WEEKDAY(TODAY(), 2) + 1)  -- Start of current week (Sunday)
+            )
+        )
+    )
+)
