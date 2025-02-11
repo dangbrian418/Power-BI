@@ -1,3 +1,4 @@
+```DAX
 Inbounds = 
 SUM('Consolidated Open Orders'[Real Open Quantity]) + 
 SUM('Consolidated Planned Orders'[Planned Quantity]) + 
