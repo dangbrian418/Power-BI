@@ -1,6 +1,3 @@
-```md
-```SQL
-
 DAX Code:
 
 Inbounds = 
@@ -9,7 +6,12 @@ SUM('Consolidated Planned Orders'[Planned Quantity]) +
 SUM('Consolidated TO Reports'[Transfer Order Quantity])
 
 Explanation:
+
 Sums the total inbound stock, including:
   - Open orders (orders that have already been placed)
   - Planned orders (orders recommended by NetSuite and have been approved by the team)
   - Transfer orders (orders that are currently in transit)
+
+Used in:
+
+- Start of Week Matrix
