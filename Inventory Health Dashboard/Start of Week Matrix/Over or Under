@@ -1,0 +1,44 @@
+(Start of Week Matrix) Over/Under = 
+VAR RunningInventory = [(Start of Week Matrix) Running Inventory] -- Existing Running Inventory measure
+VAR CurrentWeekStart = (TODAY() - WEEKDAY(TODAY(), 2) + 1) -- Start of the current week (Sunday)
+VAR FutureWeeks =
+    FILTER(
+        ALL('Rolling Calendar'),
+        'Rolling Calendar'[Start of Week] > CurrentWeekStart -- Only future weeks
+    )
+VAR Future13Weeks =
+    TOPN(13, FutureWeeks, 'Rolling Calendar'[Start of Week], ASC) -- Next 13 weeks
+VAR AverageFutureDemand =
+    AVERAGEX(
+        Future13Weeks,
+        CALCULATE(SUM('Consolidated Demand Forecast'[Demand Quantity]))
+    ) -- Calculate average demand for the next 13 weeks
+VAR MinimumStock = SELECTEDVALUE('Consolidated Master Data'[Safety Stock Level]) -- Adjust column name if different
+VAR MaximumStock = SELECTEDVALUE('Consolidated Master Data'[Maximum Qty]) -- Adjust column name if different
+
+-- Calculate Over/Under Weeks
+VAR UnderWeeks =
+    DIVIDE(
+        MinimumStock - RunningInventory,
+        AverageFutureDemand,
+        0 -- Handle division by zero
+    )
+VAR OverWeeks =
+    DIVIDE(
+        RunningInventory - MaximumStock,
+        AverageFutureDemand,
+        0 -- Handle division by zero
+    )
+
+-- Output Based on Conditions
+RETURN
+    SWITCH(
+        TRUE(),
+        RunningInventory = 0 && AverageFutureDemand = 0, "Good", -- Both stock and demand are zero
+        RunningInventory >= MinimumStock && RunningInventory <= MaximumStock, "Good", -- Between min and max
+        RunningInventory < MinimumStock && AverageFutureDemand = 0, "Under", -- Below minimum, no demand
+        RunningInventory > MaximumStock && AverageFutureDemand = 0, "Over", -- Above maximum, no demand
+        RunningInventory < MinimumStock, "-" & FORMAT(UnderWeeks, "0.0") & " wks", -- Below minimum with weeks
+        RunningInventory > MaximumStock, "+" & FORMAT(OverWeeks, "0.0") & " wks", -- Above maximum with weeks
+        BLANK() -- Default case
+    )
