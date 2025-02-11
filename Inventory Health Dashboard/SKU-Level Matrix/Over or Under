@@ -1,0 +1,46 @@
+(SKU-Level Matrix) Over/Under = 
+VAR CurrentRunningInventory = SUM('Consolidated On-Hand Inventory'[On-Hand Quantity]) -- Inventory for the SKU
+VAR TodayStartOfWeek = TODAY() - WEEKDAY(TODAY(), 2) + 1 -- Start of this week's Sunday
+VAR FutureWeeks =
+    FILTER(
+        ALL('Rolling Calendar'),
+        'Rolling Calendar'[Start of Week] > TodayStartOfWeek -- Only future weeks
+    ) -- Filter to exclude the current week
+VAR Future13Weeks =
+    TOPN(13, FutureWeeks, 'Rolling Calendar'[Start of Week], ASC) -- Next 13 weeks, ordered by start date
+VAR AverageFutureDemand =
+    AVERAGEX(
+        Future13Weeks,
+        CALCULATE(SUM('Consolidated Demand Forecast'[Demand Quantity]))
+    ) -- Calculate average demand for the next 13 weeks
+VAR MinimumStock = 
+    SUM('Consolidated Master Data'[Safety Stock Level]) -- Minimum stock level
+VAR MaximumStock = 
+    SUM('Consolidated Master Data'[Maximum Qty]) -- Maximum stock level
+
+-- Calculate Over/Under Weeks
+VAR UnderWeeks =
+    DIVIDE(
+        MinimumStock - CurrentRunningInventory,
+        AverageFutureDemand,
+        0 -- Handle division by zero
+    )
+VAR OverWeeks =
+    DIVIDE(
+        CurrentRunningInventory - MaximumStock,
+        AverageFutureDemand,
+        0 -- Handle division by zero
+    )
+
+-- Output Based on Conditions
+RETURN
+    SWITCH(
+        TRUE(),
+        CurrentRunningInventory = 0 && AverageFutureDemand = 0, "Good", -- Both stock and demand are zero
+        CurrentRunningInventory >= MinimumStock && CurrentRunningInventory <= MaximumStock, "Good", -- Between min and max
+        CurrentRunningInventory < MinimumStock && AverageFutureDemand = 0, "Under", -- Below minimum, no demand
+        CurrentRunningInventory > MaximumStock && AverageFutureDemand = 0, "Over", -- Above maximum, no demand
+        CurrentRunningInventory < MinimumStock, "-" & FORMAT(UnderWeeks, "0.0") & " wks", -- Below minimum with weeks
+        CurrentRunningInventory > MaximumStock, "+" & FORMAT(OverWeeks, "0.0") & " wks", -- Above maximum with weeks
+        BLANK() -- Default case
+    )
