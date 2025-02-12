@@ -1,3 +1,5 @@
+DAX Code:
+
 (SKU-Level Matrix) Forward Weeks of Coverage = 
 VAR Inventory = SUM('Consolidated On-Hand Inventory'[On-Hand Quantity]) -- Starting inventory
 VAR CurrentWeekStart = (TODAY() - WEEKDAY(TODAY(), 2) + 1) -- Start of the current week (Sunday)
@@ -44,3 +46,13 @@ VAR Result =
     )
 RETURN
     Result
+
+Explanation:
+
+VAR Inventory is set equal to the total On-Hand Inventory quantity. The reason it uses this instead of Running Inventory is to highlight SKUs that need their inventory replenishment expedited to meet demand in the short-term.
+
+VAR CurrentWeekStart determines the start date of the current week, which is Sunday for the company. TODAY() gets today's date, WEEKDAY(TODAY(), 2)
+
+Used in:
+
+- Top-Risk SKUs Matrix
