@@ -7,7 +7,7 @@ SUM('Consolidated Planned Orders'[Planned Quantity]) +
 SUM('Consolidated TO Reports'[Transfer Order Quantity]) - 
 SUM('Consolidated Demand Forecast'[Demand Quantity])
 
-Code Explanation:
+Explanation:
 
 Calculates the weekly inventory balance by summing current on-hand inventory and all inbounds (open, planned, and transfer orders) then subtracting forecasted demand.
 
