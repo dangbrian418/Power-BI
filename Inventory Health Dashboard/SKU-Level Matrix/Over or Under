@@ -1,3 +1,5 @@
+# DAX Code:
+
 (SKU-Level Matrix) Over/Under = 
 VAR CurrentRunningInventory = SUM('Consolidated On-Hand Inventory'[On-Hand Quantity]) -- Inventory for the SKU
 VAR TodayStartOfWeek = TODAY() - WEEKDAY(TODAY(), 2) + 1 -- Start of this week's Sunday
@@ -45,8 +47,16 @@ RETURN
         BLANK() -- Default case
     )
 
-Explanation:
+# Explanation:
 
-Used in:
+VAR CurrentRunningInventory is set equal to the On-Hand Inventroy for the current week. This is because stakeholders
+want to determine SKUs that require immediate replenishment to meet short-term demand.
+
+The company treats Sunday as the official start of a new week, so VAR TodayStartOfWeek determines the Sunday date
+for each date value.
+
+
+
+# Used in:
 
 - Top-Risk SKUs Matrix
