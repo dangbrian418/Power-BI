@@ -45,6 +45,23 @@ RETURN
 
 Explanation:
 
+This measure is another version of the Over/Under calculation, but it utilizes running inventory instead of On-Hand
+Inventory. It takes the Running Inventory for the current week, then calculates the average demand for the next 13
+weeks.
+- If the inventory is within the minimum and maximum preferred stock levels, it outputs "Good"
+- If the inventory is below minimum but there is no demand, it outputs "Under"
+- If the inventory is above maximum but there is no demand, it outputs "Over"
+- If the inventory is low and there is demand, then it calculates how many weeks it would take to restock up to the minimum
+level
+- If the inventory is high and there is demand, then it calculates how many weeks it would take to use up the extra stock
+until it is below the maximum level
+
+The reason why there are two different DAX measures for Over/Under is because DAX measures are filter-context specific. In
+Power BI, every visual applies its own filters based on the fields being used, which directly affects how DAX
+calculations behave. Because of this, a single DAX measure can't always be used in multiple visuals if the filter
+context is different. In this case, the matrix is filtered by Start of Week while the Top-Risk SKUs matrix
+is filtered by SKU + Description.
+
 Used in:
 
 - Start of Week Matrix
