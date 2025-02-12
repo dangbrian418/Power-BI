@@ -47,7 +47,7 @@ VAR Result =
 RETURN
     Result
 
-_**Explanation:**_
+**Explanation:**
 
 VAR Inventory is set equal to the total On-Hand Inventory quantity. The reason it uses this instead of Running 
 Inventory is to highlight SKUs that need their inventory replenishment expedited to meet demand in the short-term.
@@ -55,7 +55,11 @@ Inventory is to highlight SKUs that need their inventory replenishment expedited
 VAR CurrentWeekStart determines the start date of the current week, which is Sunday for the company. TODAY() gets 
 today's date, WEEKDAY(TODAY(), 2) adjusts for Sunday as the first day of the week.
 
-VAR Future Weeks
+VAR FutureWeeks retrieves all future weeks (excluding the current week) from the Rolling Calendar table.
+
+
+
+
 
 Used in:
 
