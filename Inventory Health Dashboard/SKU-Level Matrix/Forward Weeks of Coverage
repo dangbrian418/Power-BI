@@ -49,22 +49,14 @@ RETURN
 
 # Explanation:
 
-VAR Inventory is set equal to the total On-Hand Inventory quantity. The reason it uses this instead of Running 
-Inventory is to highlight SKUs that need their inventory replenishment expedited to meet demand in the short-term.
+This measure calculates how many weeks the current On-Hand Inventory will last based on future demand.
+It gathers all the upcoming future weeks and checks how much demand there will be each week. It starts
+subtracting the demand from that week's inventory, week by week, until the inventory runs out. The number
+of weeks it takes before inventory reaches zero is the Forward Weeks of Coverage (FWC).
 
-VAR CurrentWeekStart determines the start date of the current week, which is Sunday for the company. TODAY() gets 
-today's date, WEEKDAY(TODAY(), 2) adjusts for Sunday as the first day of the week.
-
-VAR FutureWeeks retrieves all future weeks (excluding the current week) from the Rolling Calendar table.
-
-VAR CumulativeDemand calculates cumulative demand for each future week. The EARLIER() function ensures that we
-sum up demand from all past weeks up to the current row's week within the filter context of the matrix.
-
-VAR DepletionWeeks determines how much inventory remains after subtracting cumulative demand for each future week.
-
-VAR WeeksToZero counts how many future weeks still have positive inventory.
-
-VAR Result returns the number of weeks before inventory reaches zero.
+If the On-Hand Inventory is already zero or negative, the result is automatically set to 0. If there are no
+future weeks where inventory stays above zero, it also returns 0. This ensures that the measure doesn't
+produce incorrect or misleading results when demand data is missing.
 
 # Used in:
 
