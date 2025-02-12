@@ -1,3 +1,5 @@
+# DAX Code:
+
 (Start of Week Matrix) Over/Under = 
 VAR RunningInventory = [(Start of Week Matrix) Running Inventory] -- Existing Running Inventory measure
 VAR CurrentWeekStart = (TODAY() - WEEKDAY(TODAY(), 2) + 1) -- Start of the current week (Sunday)
@@ -43,7 +45,7 @@ RETURN
         BLANK() -- Default case
     )
 
-Explanation:
+# Explanation:
 
 This measure is another version of the Over/Under calculation, but it utilizes running inventory instead of On-Hand
 Inventory. It takes the Running Inventory for the current week, then calculates the average demand for the next 13
@@ -62,6 +64,6 @@ calculations behave. Because of this, a single DAX measure can't always be used 
 context is different. In this case, the matrix is filtered by Start of Week while the Top-Risk SKUs matrix
 is filtered by SKU + Description.
 
-Used in:
+# Used in:
 
 - Start of Week Matrix
