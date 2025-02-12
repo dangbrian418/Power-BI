@@ -1,3 +1,5 @@
+# DAX Code:
+
 (Start of Week Matrix) Running Inventory = 
 CALCULATE(
     [Weekly Inventory],
@@ -7,9 +9,14 @@ CALCULATE(
         )
     )
 
-Explanation:
+# Explanation:
 
-Used in:
+This measure calculates the total inventory available at the start of each week.
+It does this by taking the weekly inventory balance up to the selected week and ensuring
+that all relevant stock adjustments like inbound and demand are accounted for.
+
+
+# Used in:
 
 - Running Inventory Line Graph
 - Start oF Week Matrix
