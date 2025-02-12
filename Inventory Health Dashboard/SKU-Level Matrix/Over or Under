@@ -61,6 +61,12 @@ used up.
 
 This measure helps the operations team identify stock imbalances so they can restock or slow down purchasing as needed.
 
+The reason why there are two different DAX measures for Over/Under is because DAX measures are filter-context specific. In
+Power BI, every visual applies its own filters based on the fields being used, which directly affects how DAX
+calculations behave. Because of this, a single DAX measure can't always be used in multiple visuals if the filter
+context is different. In this case, the matrix is filtered by SKU + Description while the Start of Week matrix
+is filtered by Start of Week (Sunday).
+
 # Used in:
 
 - Top-Risk SKUs Matrix
