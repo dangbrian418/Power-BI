@@ -30,3 +30,9 @@ VAR Result =
     )
 RETURN
     Result
+
+Explanation:
+
+Used in:
+
+- Start of Week Matrix
