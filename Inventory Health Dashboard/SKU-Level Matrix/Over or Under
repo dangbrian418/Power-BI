@@ -49,13 +49,15 @@ RETURN
 
 # Explanation:
 
-VAR CurrentRunningInventory is set equal to the On-Hand Inventroy for the current week. This is because stakeholders
-want to determine SKUs that require immediate replenishment to meet short-term demand.
+This measure determines whether a SKU has too much stock, too little stock, or just the right amount. It starts by finding
+the current On-Hand Inventory quantity and compares it to the minimum and maximum preferred stock levels set by the
+company. Then, it calculates the average demand over the next 13 weeks to understand how fast the inventory is being
+used up.
+- If the inventory is between minimum and maximum range, the measure labels it as "Good"
+- If inventory is too low, it calculates how many weeks it will take for stock to reach the minimum level.
+- If inventory is too high, it calculates how many weeks it will take for stock to drop to the maximum level.
 
-The company treats Sunday as the official start of a new week, so VAR TodayStartOfWeek determines the Sunday date
-for each date value.
-
-
+This measure helps the operations team identify stock imbalances so they can restock or slow down purchasing as needed.
 
 # Used in:
 
