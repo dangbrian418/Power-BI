@@ -1,4 +1,4 @@
-DAX Code:
+# DAX Code:
 
 (Start of Week Matrix) Forward Weeks of Coverage = 
 VAR CurrentRunningInventory = [(Start of Week Matrix) Running Inventory] -- Current week's running inventory
@@ -33,7 +33,7 @@ VAR Result =
 RETURN
     Result
 
-Explanation:
+# Explanation:
 
 This measure works like the Top-Risk SKU Forward Weeks of Coverage, but it calculates using Running Inventory,
 which factors in current week inbound and demand. It starts by finding the running inventory for the current week,
@@ -46,6 +46,6 @@ calculations behave. Because of this, a single DAX measure can't always be used 
 context is different. In this case, the matrix is filtered by Start of Week (Sunday) while the Top-Risk SKU matrix
 is filtered by SKU + Description.
 
-Used in:
+# Used in:
 
 - Start of Week Matrix
