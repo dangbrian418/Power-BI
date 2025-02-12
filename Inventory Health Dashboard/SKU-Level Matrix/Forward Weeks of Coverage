@@ -57,6 +57,11 @@ today's date, WEEKDAY(TODAY(), 2) adjusts for Sunday as the first day of the wee
 
 VAR FutureWeeks retrieves all future weeks (excluding the current week) from the Rolling Calendar table.
 
+VAR CumulativeDemand calculates cumulative demand for each future week. The EARLIER() function ensures that we
+sum up demand from all past weeks up to the current row's week within the filter context of the matrix.
+
+VAR DepletionWeeks determines how much inventory remains after subtracting cumulative demand for each future week.
+
 
 
 
