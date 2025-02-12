@@ -44,3 +44,9 @@ RETURN
         CurrentRunningInventory > MaximumStock, "+" & FORMAT(OverWeeks, "0.0") & " wks", -- Above maximum with weeks
         BLANK() -- Default case
     )
+
+Explanation:
+
+Used in:
+
+- Top-Risk SKUs Matrix
