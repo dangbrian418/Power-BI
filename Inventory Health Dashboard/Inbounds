@@ -7,6 +7,7 @@ SUM('Consolidated TO Reports'[Transfer Order Quantity])
 
 Explanation:
 
+Stakeholders wanted a way to see their inbound totals separate from demand.
 Sums the total inbound stock, including:
   - Open Orders (orders that have already been placed)
   - Planned Orders (orders recommended by NetSuite and have been approved by the team)
