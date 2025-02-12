@@ -58,6 +58,12 @@ If the On-Hand Inventory is already zero or negative, the result is automaticall
 future weeks where inventory stays above zero, it also returns 0. This ensures that the measure doesn't
 produce incorrect or misleading results when demand data is missing.
 
+The reason why there are two different DAX measures for FWC is because DAX measures are filter-context specific. In
+Power BI, every visual applies its own filters based on the fields being used, which directly affects how DAX
+calculations behave. Because of this, a single DAX measure can't always be used in multiple visuals if the filter
+context is different. In this case, the matrix is filtered by SKU + Description while the Start of Week matrix
+is filtered by Start of Week (Sunday).
+
 # Used in:
 
 - Top-Risk SKUs Matrix
