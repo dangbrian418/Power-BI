@@ -53,9 +53,11 @@ This measure determines whether a SKU has too much stock, too little stock, or j
 the current On-Hand Inventory quantity and compares it to the minimum and maximum preferred stock levels set by the
 company. Then, it calculates the average demand over the next 13 weeks to understand how fast the inventory is being
 used up.
-- If the inventory is between minimum and maximum range, the measure labels it as "Good"
-- If inventory is too low, it calculates how many weeks it will take for stock to reach the minimum level.
-- If inventory is too high, it calculates how many weeks it will take for stock to drop to the maximum level.
+- If the inventory is between minimum and maximum range, the measure labels it as "Good".
+- If the inventory is above maximum range, but there is no demand then it outputs "Over".
+- If the inventory is below minimum range, but there is no demand then it outputs "Under".
+- If inventory is too low and there is demand, it calculates how many weeks it will take for stock to reach the minimum level.
+- If inventory is too high and there is demand, it calculates how many weeks it will take for stock to drop to the maximum level.
 
 This measure helps the operations team identify stock imbalances so they can restock or slow down purchasing as needed.
 
