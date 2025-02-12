@@ -6,3 +6,10 @@ CALCULATE(
         'Rolling Calendar'[Start of Week] <= MAX('Rolling Calendar'[Start of Week])
         )
     )
+
+Explanation:
+
+Used in:
+
+- Running Inventory Line Graph
+- Start oF Week Matrix
